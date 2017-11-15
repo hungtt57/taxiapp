@@ -1,22 +1,22 @@
 import React from "react";
-import {View, Text} from 'react-native';
+import {View, Text} from 'native-base';
 import MapView  from 'react-native-maps';
 import styles from './MapContainerStyles';
+import SearchBox from "../SearchBox";
 export const MapContainer = ({region}) => {
     return (
         <View style={styles.container}>
             <MapView
-                // provider={MapView.PROVIDER_GOOGLE}
+                provider={MapView.PROVIDER_GOOGLE}
                 style={styles.map}
-                initialRegion={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
-                }}
+                region={region}
             >
-
+                <MapView.Marker
+                    coordinate={region}
+                    pinColor="red"
+                />
             </MapView>
+            <SearchBox />
         </View>
     );
 };

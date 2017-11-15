@@ -6,8 +6,8 @@ const styles = {
       flex : 1,
   },
     map : {
-        width: width,
-        height: height,
+     width : width,
+        height:height
     }
 };
 export default styles;

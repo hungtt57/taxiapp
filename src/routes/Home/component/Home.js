@@ -2,25 +2,23 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import {Container} from "native-base";
 import MapContainer from './MapContainer';
+import {Dimensions } from 'react-native';
 
 class Home extends React.Component {
 
     componentDidMount() {
-        // this.props.setName();
+         this.props.getCurrentLocation();
     }
 
 
     render() {
-        const  region={
-            latitude: 37.78825,
-                longitude: -122.4324,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.0121,
-        };
+
         return (
-            <View>
-                <MapContainer region={region}/>
-            </View>
+            <Container>
+                {this.props.region.latitude &&
+                < MapContainer region={this.props.region}/>
+                }
+            </Container>
         );
     };
 }
