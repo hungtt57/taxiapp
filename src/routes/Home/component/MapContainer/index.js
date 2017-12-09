@@ -7,7 +7,7 @@ export const MapContainer = ({region}) => {
     return (
         <View style={styles.container}>
             <MapView
-                provider={MapView.PROVIDER_GOOGLE}
+                // provider={MapView.PROVIDER_GOOGLE}
                 style={styles.map}
                 region={region}
             >
