@@ -16,6 +16,7 @@ const LONGITUDE_DELTA = ASPECT_RATION* LATITUDE_DELTA;
 export function getCurrentLocation() {
     return (dispatch) => {
         navigator.geolocation.getCurrentPosition(
+
             (position) => {
                 dispatch({
                     type: GET_CURRENT_LOCATION,
