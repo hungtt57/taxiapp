@@ -18,7 +18,9 @@ export const SearchBox = ({getInputData,toggleSearchResultModal,getAddressPredic
                 <Text style={styles.label}>PICK UP</Text>
                 <InputGroup>
                     <Icon name="search" size={15} color="#FF5E3A"/>
-                    <Input onFocus={() => toggleSearchResultModal("pickUp")} style={styles.inputSearch} placeholder="Choose pick up location"
+                    <Input
+                        onFocus={() => toggleSearchResultModal("pickUp")}
+                           style={styles.inputSearch} placeholder="Choose pick up location"
                     onChangeText={handleInput.bind(this,"pickUp")}/>
                 </InputGroup>
             </View>
