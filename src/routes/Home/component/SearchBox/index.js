@@ -4,14 +4,20 @@ import styles from './SearchBoxStyles';
 import {View, InputGroup, Input} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export const SearchBox = ({getInputData,toggleSearchResultModal,getAddressPredictions}) => {
-    function handleInput(key,value) {
+export const SearchBox = ({
+                              getInputData, toggleSearchResultModal, getAddressPredictions,
+                              selectedAddress
+                          }) => {
+    const {selectedPickUp, selectedDropOff} = selectedAddress || {};
+
+    function handleInput(key, value) {
         getInputData({
-            key:key,
-            value : value
+            key: key,
+            value: value
         });
         getAddressPredictions();
     }
+
     return (
         <View style={styles.searchBox}>
             <View style={styles.inputWrapper}>
@@ -20,8 +26,10 @@ export const SearchBox = ({getInputData,toggleSearchResultModal,getAddressPredic
                     <Icon name="search" size={15} color="#FF5E3A"/>
                     <Input
                         onFocus={() => toggleSearchResultModal("pickUp")}
-                           style={styles.inputSearch} placeholder="Choose pick up location"
-                    onChangeText={handleInput.bind(this,"pickUp")}/>
+                        style={styles.inputSearch} placeholder="Choose pick up location"
+                        onChangeText={handleInput.bind(this, "pickUp")}
+                        value={selectedPickUp && selectedPickUp.name}
+                    />
                 </InputGroup>
             </View>
 
@@ -33,7 +41,9 @@ export const SearchBox = ({getInputData,toggleSearchResultModal,getAddressPredic
                     <Input
                         onFocus={() => toggleSearchResultModal("dropOff")}
                         style={styles.inputSearch} placeholder="Choose drop-off location"
-                           onChangeText={handleInput.bind(this,"dropOff")} />
+                        onChangeText={handleInput.bind(this, "dropOff")}
+                        value={selectedDropOff && selectedDropOff.name}
+                    />
                 </InputGroup>
             </View>
 

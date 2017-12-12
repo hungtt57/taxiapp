@@ -5,7 +5,7 @@ import MapContainer from './MapContainer';
 import {Dimensions} from 'react-native';
  import HeaderComponent from '../../../components/HeaderComponent';
  import FooterComponent from '../../../components/FooterComponent';
-
+import Fare from './Fare'
  const taxiLogo = require('../../../assets/img/taxi_logo_white.png');
 class Home extends React.Component {
 
@@ -25,8 +25,15 @@ class Home extends React.Component {
                                toggleSearchResultModal={this.props.toggleSearchResultModal}
                                resultTypes={this.props.resultTypes}
                                predictions = {this.props.predictions}
+                               getSelectedAddress = {this.props.getSelectedAddress}
+                               selectedAddress={this.props.selectedAddress}
                 />
                 }
+                {
+                    this.props.fare &&
+                        <Fare fare={this.props.fare} />
+                }
+
                 <FooterComponent />
             </Container>
         );
