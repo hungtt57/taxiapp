@@ -15,8 +15,10 @@ const {
     GET_ADDRESS_PREDICTIONS,
     GET_SELECTED_ADDRESS,
     GET_DISTANCE_MATRIX,
-    GET_FARE
+    GET_FARE,
+    BOOK_CAR
 } = constants;
+const baseUrl = 'http://192.168.0.7:3000';
 const {width, height} = Dimensions.get('window');
 
 const ASPECT_RATION = width / height;
@@ -204,25 +206,27 @@ export function getSelectedAddress (payload) {
                             dispatch({
                                 type : GET_DISTANCE_MATRIX,
                                 payload : res.body
-                            })
-                        })
-                }
-                setTimeout(function () {
-                    if(store().home.selectedAddress.selectedPickUp && store().home.selectedAddress.selectedDropOff) {
-                        const fare = calculateFare(
-                            dummyNumbers.baseFare,
-                            dummyNumbers.timeRate,
-                            store().home.distanceMatrix.rows[0].elements[0].duration.value,
-                            dummyNumbers.distanceRate,
-                            store().home.distanceMatrix.rows[0].elements[0].duration.value,
-                            dummyNumbers.surge,
-                        );
-                        dispatch({
-                           type : GET_FARE,
-                           payload:fare
+                            });
+                            let data = res.body;
+                            const fare = calculateFare(
+                                dummyNumbers.baseFare,
+                                dummyNumbers.timeRate,
+                                data.rows[0].elements[0].duration.value,
+                                dummyNumbers.distanceRate,
+                                data.rows[0].elements[0].duration.value,
+                                dummyNumbers.surge,
+                            );
+                            dispatch({
+                                type : GET_FARE,
+                                payload:fare
+                            });
                         });
-                    }
-                },1000);
+                }
+                // setTimeout(function () {
+                //     if(store().home.selectedAddress.selectedPickUp && store().home.selectedAddress.selectedDropOff) {
+                //
+                //     }
+                // },2000);
              }).catch((error) => console.log(error.message));
     }
 }
@@ -240,7 +244,49 @@ function handleGetFare(state,action) {
             $set : action.payload
         }
     });
+};
+
+export function bookCar () {
+    return (dispatch,store) => {
+        const payload =  {
+            data : {
+                userName : "hinkeu",
+                pickUp : {
+                    address : store().home.selectedAddress.selectedPickUp.address,
+                    name :store().home.selectedAddress.selectedPickUp.name,
+                    latitude :store().home.selectedAddress.selectedPickUp.latitude,
+                    longitude :store().home.selectedAddress.selectedPickUp.longitude,
+                },
+                dropOff : {
+                    address : store().home.selectedAddress.selectedDropOff.address,
+                    name :store().home.selectedAddress.selectedDropOff.name,
+                    latitude :store().home.selectedAddress.selectedDropOff.latitude,
+                    longitude :store().home.selectedAddress.selectedDropOff.longitude,
+                },
+                fare : store().home.fare,
+                status: " pending"
+            }
+        };
+        request.post(baseUrl+"/api/bookings")
+            .send(payload)
+            .finish((error,res) => {
+                dispatch({
+                    type:BOOK_CAR,
+                    payload:res.body
+                })
+        });
+    }
+};
+function handleBookCar(state,action) {
+    return update(state,{
+        booking : {
+            $set : action.payload
+        }
+    })
 }
+
+
+
 const ACTION_HANDLERS = {
     GET_CURRENT_LOCATION: handleGetCurrenLocation,
     GET_INPUT: handleGetInputData,
@@ -248,7 +294,8 @@ const ACTION_HANDLERS = {
     GET_ADDRESS_PREDICTIONS: handleGetAddressPredictions,
     GET_SELECTED_ADDRESS : handleGetSelectedAddress,
     GET_DISTANCE_MATRIX : handleGetDistanceMatrix,
-    GET_FARE : handleGetFare
+    GET_FARE : handleGetFare,
+    BOOK_CAR : handleBookCar
 
 };
 const initialState = {

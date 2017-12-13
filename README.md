@@ -5,6 +5,8 @@
 https://maps.googleapis.com/maps/api/distancematrix/json
 Calculate fare when using distance matrix
 
-12/12 part 8 : code backend with express
+12/12 part 8 : code backend with express 
+cd server
 npm init : init server
 run : npm install express body-parser ejs --save 
+npm install nodemon -g |
