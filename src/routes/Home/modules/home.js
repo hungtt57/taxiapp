@@ -16,7 +16,8 @@ const {
     GET_SELECTED_ADDRESS,
     GET_DISTANCE_MATRIX,
     GET_FARE,
-    BOOK_CAR
+    BOOK_CAR,
+    GET_NEARBY_DRIVERS
 } = constants;
 const baseUrl = 'http://192.168.0.7:3000';
 const {width, height} = Dimensions.get('window');
@@ -79,7 +80,27 @@ export function getAddressPredictions() {
     };
 }
 
-//--------Action handlers-------
+//get nearby drivers
+export function getNearByDrivers () {
+    return (dispatch, store) => {
+        request.get(baseUrl+"/api/driverLocation")
+            .query({
+                latitude : store().home.region.latitude,
+                longitude : store().home.region.longitude,
+            })
+            .finish((error,res) => {
+                dispatch({
+                    type:GET_NEARBY_DRIVERS,
+                    payload:res.body
+                })
+            });
+    };
+}
+
+
+//-------
+// -Action handlers-----
+// --
 
 function handleGetCurrenLocation(state, action) {
 
@@ -286,6 +307,16 @@ function handleBookCar(state,action) {
 }
 
 
+//handle get nearby drivers
+function handleGetNearbyDrivers(state,action) {
+    return update(state,{
+        nearByDrivers : {
+            $set : action.payload
+        }
+    })
+}
+
+
 
 const ACTION_HANDLERS = {
     GET_CURRENT_LOCATION: handleGetCurrenLocation,
@@ -295,7 +326,8 @@ const ACTION_HANDLERS = {
     GET_SELECTED_ADDRESS : handleGetSelectedAddress,
     GET_DISTANCE_MATRIX : handleGetDistanceMatrix,
     GET_FARE : handleGetFare,
-    BOOK_CAR : handleBookCar
+    BOOK_CAR : handleBookCar,
+    GET_NEARBY_DRIVERS : handleGetNearbyDrivers
 
 };
 const initialState = {

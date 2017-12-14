@@ -9,4 +9,4 @@ Calculate fare when using distance matrix
 cd server
 npm init : init server
 run : npm install express body-parser ejs --save 
-npm install nodemon -g |
+npm install nodemon -g 
