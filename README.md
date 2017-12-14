@@ -10,4 +10,5 @@ cd server
 npm init : init server
 run : npm install express body-parser ejs --save 
 npm install nodemon -g 
+
 14?12 : part 9
