@@ -19,7 +19,7 @@ const {
     BOOK_CAR,
     GET_NEARBY_DRIVERS
 } = constants;
-const baseUrl = 'http://192.168.0.7:3000';
+const baseUrl = 'http://192.168.249.2:3000';
 const {width, height} = Dimensions.get('window');
 
 const ASPECT_RATION = width / height;
@@ -288,7 +288,7 @@ export function bookCar () {
                     longitude :store().home.selectedAddress.selectedDropOff.longitude,
                 },
                 fare : store().home.fare,
-                status: " pending"
+                status: "pending"
             },
             nearByDriver : {
                 socketId : nearByDriver.socketId,
@@ -325,6 +325,13 @@ function handleGetNearbyDrivers(state,action) {
         }
     })
 }
+function handleConfirmBooking(state,action) {
+    return update(state,{
+        booking : {
+            $set : action.payload
+        }
+    })
+}
 
 
 
@@ -337,7 +344,8 @@ const ACTION_HANDLERS = {
     GET_DISTANCE_MATRIX : handleGetDistanceMatrix,
     GET_FARE : handleGetFare,
     BOOK_CAR : handleBookCar,
-    GET_NEARBY_DRIVERS : handleGetNearbyDrivers
+    GET_NEARBY_DRIVERS : handleGetNearbyDrivers,
+    BOOKING_CONFIRMED : handleConfirmBooking
 
 };
 const initialState = {

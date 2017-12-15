@@ -5,13 +5,14 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import styles from "./FindDriverStyles.js";
 
-// let Spinner = require("react-native-spinkit");
+let Spinner = require("react-native-spinkit");
 export const FindDriver = ({selectedAddress})=> {
 
     const { selectedPickUp, selectedDropOff }  = selectedAddress || {};
+
     return (
         <View style={styles.findDriverContainer} >
-
+            <Spinner syle={styles.spinner} isVisible size={150} type="Pulse" color="#ffffff" />
             <View style={styles.content}>
                 <Text style={styles.text}> Processing your request</Text>
                 <Icon style={styles.locationIcon} name="map-marker"/>
