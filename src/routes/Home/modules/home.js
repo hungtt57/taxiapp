@@ -268,7 +268,10 @@ function handleGetFare(state,action) {
 };
 
 export function bookCar () {
+
     return (dispatch,store) => {
+        const nearByDrivers =  store().home.nearByDrivers;
+        const nearByDriver = nearByDrivers[Math.floor((Math.random()*nearByDrivers.length))];
         const payload =  {
             data : {
                 userName : "hinkeu",
@@ -286,6 +289,12 @@ export function bookCar () {
                 },
                 fare : store().home.fare,
                 status: " pending"
+            },
+            nearByDriver : {
+                socketId : nearByDriver.socketId,
+                driverId : nearByDriver.driverId,
+                latitude : nearByDriver.coordinate.coordinates[1],
+                longitude : nearByDriver.coordinate.coordinates[0],
             }
         };
         request.post(baseUrl+"/api/bookings")
@@ -298,10 +307,11 @@ export function bookCar () {
         });
     }
 };
-function handleBookCar(state,action) {
-    return update(state,{
-        booking : {
-            $set : action.payload
+
+function handleBookCar(state, action){
+    return update(state, {
+        booking:{
+            $set:action.payload
         }
     })
 }
