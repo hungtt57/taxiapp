@@ -311,7 +311,7 @@ export function bookCar () {
 function handleBookCar(state, action){
     return update(state, {
         booking:{
-            $set:action.payload
+            $set: action.payload
         }
     })
 }
